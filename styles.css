@@ -1,426 +1,212 @@
-/* =======================
-   RESET
-======================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* =======================
-   BODY
-======================= */
-body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-  background: #000000;
-  padding: 40px 40px 100px 40px;
-  color: #f5f5f5;
-  letter-spacing: 0.1px;
+body{
+  font-family:'Inter',sans-serif;
+  background:#050505;
+  color:#fff;
+  overflow:hidden;
 }
 
-/* =======================
-   CONTAINER
-======================= */
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
+/* ===== DASHBOARD CONTAINER ===== */
+
+.dashboard{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding:20px 40px;
 }
 
-/* =======================
-   HEADER
-======================= */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 30px;
-  position: relative;
+/* ===== TOPBAR ===== */
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
 }
 
-
-@keyframes glowPulse {
-  0% {
-    filter:
-      drop-shadow(0 0 10px rgba(255, 0, 0, 0.4))
-      drop-shadow(0 0 30px rgba(255, 0, 0, 0.2));
-  }
-  100% {
-    filter:
-      drop-shadow(0 0 18px rgba(255, 0, 0, 0.6))
-      drop-shadow(0 0 50px rgba(255, 0, 0, 0.35));
-  }
+.brand{
+  display:flex;
+  align-items:center;
+  gap:20px;
 }
 
-.logo {
-  height: 120px;
-  margin-top: 12px;
-  animation: glowPulse 3s ease-in-out infinite alternate;
+.logo{
+  height:100px;
 }
 
-/* =======================
-   TITLE
-======================= */
-h1 {
-  font-size: 46px;
-  font-weight: 700;
-  letter-spacing: 7px;
-  color: #ffffff;
-   text-transform: uppercase;
+.title-group h1{
+  font-size:40px;
+  font-weight:600;
 }
 
-/* =======================
-   FILE INPUT
-======================= */
-input[type="file"] {
-  display: block;
-  margin: 0 auto 40px auto;
-  padding: 12px 18px;
-  background: #000;
-  border: 1.5px solid #ff0000;
-  color: #ff0000;
-  border-radius: 14px;
-  cursor: pointer;
-  font-size: 13px;
+.title-group span{
+  font-size:20px;
+  color:#aaa;
 }
 
-/* =======================
-   KPIS
-======================= */
-.kpis {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 26px;
-  margin-bottom: 45px;
+.actions{
+  display:flex;
+  gap:12px;
 }
 
-.kpi {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  background: linear-gradient(180deg, #000000, #050505);
-  border: 1.5px solid #ff0000;
-  border-radius: 22px;
-  padding: 22px;
-  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.12);
+.nav{
+  padding:8px 18px;
+  border-radius:20px;
+  border:1px solid #ff0000;
+  background:transparent;
+  color:#fff;
+  cursor:pointer;
+  transition:.2s;
 }
 
-.kpi-icon {
-  font-size: 44px;
-  opacity: 0.9;
+.nav.active,
+.nav:hover{
+  background:#ff0000;
 }
 
-.kpi-content {
-  display: flex;
-  flex-direction: column;
+.print{
+  padding:8px 20px;
+  border-radius:20px;
+  background:#ff0000;
+  border:none;
+  font-weight:600;
+  cursor:pointer;
 }
 
-.kpi-content span {
-  font-size: 12px;
-  letter-spacing: 1px;
-  color: #aaaaaa;
-  text-transform: uppercase;
+/* ===== CONTROL BAR ===== */
+
+.control-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
 }
 
-.kpi-content strong {
-  margin-top: 6px;
-  font-size: 34px;
-  font-weight: 600;
-  line-height: 1;
+.uploads{
+  display:flex;
+  gap:20px;
 }
 
-/* =======================
-   SLA COLORS
-======================= */
-.kpi.sla-green {
-  border-color: #22c55e;
-  box-shadow: 0 8px 22px rgba(34, 197, 94, 0.2);
+.uploads label{
+  font-size:11px;
+  color:#ff0000;
+  display:block;
+  margin-bottom:4px;
 }
 
-.kpi.sla-yellow {
-  border-color: #facc15;
-  box-shadow: 0 8px 22px rgba(250, 204, 21, 0.2);
+input[type="file"],
+select{
+  background:#111;
+  border:1px solid #ff0000;
+  border-radius:12px;
+  padding:6px 10px;
+  color:#fff;
+  font-size:12px;
 }
 
-.kpi.sla-red {
-  border-color: #ef4444;
-  box-shadow: 0 8px 22px rgba(239, 68, 68, 0.25);
+.filters{
+  display:flex;
+  gap:15px;
 }
 
-.kpi.sla-green strong { color: #22c55e; }
-.kpi.sla-yellow strong { color: #facc15; }
-.kpi.sla-red strong { color: #ef4444; }
+/* ===== MAIN GRID ===== */
 
-/* =======================
-   CHARTS
-======================= */
-.charts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
-  gap: 32px;
+.main-grid{
+  flex:1;
+  display:grid;
+  grid-template-rows:auto 1fr;
+  gap:20px;
 }
 
-.chart {
-  background: #000;
-  border: 3px solid #ff0000;      /* 🔥 borda visível novamente */
-  border-radius: 18px;
-  padding: 20px;
-  height: 420px;
+/* ===== KPI GRID ===== */
 
-  overflow-y: auto;               /* scroll interno */
-  position: relative;
+.kpi-grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:15px;
 }
 
-
-/* Scroll elegante */
-.chart::-webkit-scrollbar {
-  width: 6px;
+.kpi{
+  background:#111;
+  border:1px solid #ff0000;
+  border-radius:14px;
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
-.chart::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 10px;
+.kpi span{
+  font-size:11px;
+  color:#aaa;
+  text-transform:uppercase;
 }
 
-.chart::-webkit-scrollbar-track {
-  background: transparent;
+.kpi strong{
+  font-size:28px;
+  margin-top:6px;
 }
 
+.kpi.sla-green strong{color:#22c55e;}
+.kpi.sla-yellow strong{color:#facc15;}
+.kpi.sla-red strong{color:#ef4444;}
 
-/* =======================
-   FILTERS
-======================= */
-.filters {
-  margin: 45px 0;
-  display: flex;
-  justify-content: center;
-  gap: 30px;
+/* ===== CHART GRID ===== */
+
+.chart-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
 }
 
-.filter-group {
-  display: flex;
-  flex-direction: column;
+.card{
+  background:#111;
+  border-radius:18px;
+  padding:20px;
+  border:1px solid #1a1a1a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.filter-group label {
-  margin-bottom: 8px;
-  color: #ff0000;
-  font-size: 13px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+/* ===== TABLE ===== */
+
+.table-page{
+  flex:1;
 }
 
-.filter-group select {
-  padding: 12px 16px;
-  background: #000;
-  color: #fff;
-  border: 1.5px solid #ff0000;
-  border-radius: 14px;
-  font-size: 14px;
-  cursor: pointer;
+.table-card{
+  height:100%;
+  overflow:auto;
 }
 
-/* =======================
-   TABLE
-======================= */
-.table-container {
-  margin-top: 50px;
+table{
+  width:100%;
+  border-collapse:collapse;
 }
 
-.table-container h2 {
-  margin-bottom: 18px;
-  color: #ff0000;
-  letter-spacing: 2px;
-  font-weight: 500;
+thead{
+  background:#ff0000;
+  color:#000;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #000;
-  border: 1.5px solid #ff0000;
-  border-radius: 20px;
-  overflow: hidden;
+th,td{
+  padding:10px;
+  text-align:left;
+  font-size:13px;
 }
 
-thead {
-  background: linear-gradient(90deg, #ff0000, #c60000);
+tbody tr{
+  border-bottom:1px solid #222;
 }
 
-thead th {
-  padding: 14px;
-  text-align: left;
-  color: #000;
-  font-size: 13px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-tbody td {
-  padding: 14px;
-  border-bottom: 1px solid #1a1a1a;
-  font-size: 14px;
-}
-
-tbody tr:hover {
-  background: #0f0f0f;
-}
-
-/* =======================
-   SLA TEXT
-======================= */
-.sla-green { color: #22c55e; font-weight: 600; }
-.sla-yellow { color: #facc15; font-weight: 600; }
-.sla-red { color: #ef4444; font-weight: 600; }
-
-/* =======================
-   FOOTER
-======================= */
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.95);
-  border-top: 1px solid #ff0000;
-  color: #aaaaaa;
-  font-size: 12px;
-  letter-spacing: 1px;
-  z-index: 1000;
-}
-
-.footer strong {
-  color: #ff0000;
-}
+.sla-green{color:#22c55e;}
+.sla-yellow{color:#facc15;}
+.sla-red{color:#ef4444;}
 
 
-.print-btn {
-  padding: 10px 18px;
-  border-radius: 12px;
-  border: 2px solid #ff0000;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-
-  font-size: 14px;
-  letter-spacing: 1px;
-
-  box-shadow:
-    0 0 10px rgba(255, 0, 0, 0.3),
-    inset 0 0 8px rgba(255, 0, 0, 0.15);
-
-  transition: all 0.2s ease;
-}
-
-.print-btn:hover {
-  background: #ff0000;
-  box-shadow:
-    0 0 18px rgba(255, 0, 0, 0.5);
-}
-
-
-/* NAVEGAÇÃO */
-.nav-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin: 30px 0;
-}
-
-.nav-buttons button {
-  padding: 10px 24px;
-  border-radius: 20px;
-  border: 2px solid #ff0000;
-  background: transparent;
-  color: #ffffff;
-  font-size: 14px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.nav-buttons button:hover {
-  background: #ff0000;
-}
-
-.nav-buttons button.active {
-  background: #ff0000;
-}
-/* AÇÕES NO TOPO */
-.top-actions {
-  position: fixed;
-  top: 20px;
-  right: 40px;
-
-  display: flex;
-  align-items: center;
-  gap: 20px;
-
-  z-index: 2000;
-}
-
-/* BOTÕES DE NAVEGAÇÃO */
-.nav-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-.nav-buttons button {
-  padding: 8px 18px;
-  border-radius: 20px;
-  border: 2px solid #ff0000;
-  background: transparent;
-  color: #ffffff;
-  font-size: 13px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.nav-buttons button:hover {
-  background: #ff0000;
-}
-
-.nav-buttons button.active {
-  background: #ff0000;
-}
-
-/* BOTÃO PRINT */
-.print-btn {
-  padding: 8px 18px;
-  border-radius: 20px;
-  border: 2px solid #ff0000;
-  background: #ff0000;
-  color: #000;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.print-btn:hover {
-  opacity: 0.85;
-}
-
-
-/* ✨ GLOW SUAVE NAS CAIXAS */
-.kpi,
-.chart {
-  position: relative;
-  box-shadow:
-    0 0 12px rgba(255, 0, 0, 0.25),
-    0 0 25px rgba(255, 0, 0, 0.15);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-/* ✨ efeito vivo ao passar o mouse */
-.kpi:hover,
-.chart:hover {
-  box-shadow:
-    0 0 18px rgba(255, 0, 0, 0.45),
-    0 0 40px rgba(255, 0, 0, 0.25);
-  transform: translateY(-2px);
-}

@@ -1,161 +1,156 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-  <title>Dashboard XPT</title>
+<meta charset="UTF-8"/>
+<title>Dashboard XPT</title>
 
-  <link rel="icon" type="image1/png" href="image1.png">
+<link rel="icon" href="image1.png">
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- PapaParse -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-
-<!-- html2canvas -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-<!-- seu JS -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 <script type="module" src="dashboard.js"></script>
-
+</head>
 
 <body>
 
-<div class="top-actions">
+<div class="dashboard">
 
-  <div class="nav-buttons">
-    <button id="btnHome" class="active">Início</button>
-    <button id="btnCity">Status por Cidade</button>
-  </div>
+  <!-- HEADER EXECUTIVO -->
+  <header class="topbar">
+      <div class="brand">
+          <img src="image.png" class="logo">
+          <div class="title-group">
+              <h1>Dashboard Operacional</h1>
+              <span>Performance Logística | SLA & DS</span>
+              
+               
+              
+          </div>
+      </div>
 
-  <button class="print-btn" onclick="printAndCopy()">
-    📸 Copiar print
-  </button>
+      <div class="actions">
+          <button id="btnHome" class="nav active">Início</button>
+          <button id="btnCity" class="nav">Entregadores</button>
+          <button class="print" onclick="printAndCopy()">📸 Exportar</button>
+      </div>
+  </header>
+
+  <!-- FILTROS -->
+  <section class="control-bar">
+      <div class="uploads">
+          <div>
+              <label>SLA</label>
+              <input type="file" id="csvInput" accept=".csv">
+          </div>
+          <div>
+              <label>DS</label>
+              <input type="file" id="dsInput" accept=".csv">
+          </div>
+      </div>
+
+      <div class="filters">
+          <select id="driverSelect">
+              <option value="">Todos os Entregadores</option>
+          </select>
+
+          <select id="citySelect">
+              <option value="">Todas as Cidades</option>
+          </select>
+      </div>
+  </section>
+
+  <!-- HOME -->
+  <section id="homePage" class="main-grid">
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+
+          <div class="kpi">
+              <span>Total</span>
+              <strong id="kpiTotal">0</strong>
+          </div>
+
+          <div class="kpi">
+              <span>Entregues</span>
+              <strong id="kpiDelivered">0</strong>
+          </div>
+
+          <div class="kpi">
+              <span>Pendentes</span>
+              <strong id="kpiPending">0</strong>
+          </div>
+
+          <div class="kpi" id="kpiSlaCard">
+              <span>SLA</span>
+              <strong id="kpiSla">0%</strong>
+          </div>
+
+          <div class="kpi">
+              <span>Meta 98%</span>
+              <strong id="kpiForecast">0</strong>
+          </div>
+
+          <div class="kpi" id="kpiDsCard">
+              <span>DS</span>
+              <strong id="kpiDs">0%</strong>
+          </div>
+
+      </div>
+
+      <!-- GRÁFICOS -->
+      <div class="chart-grid">
+          <div class="card">
+              <canvas id="barChart"></canvas>
+          </div>
+          <div class="card">
+              <canvas id="pieChart"></canvas>
+          </div>
+      </div>
+
+  </section>
+
+  <!-- CIDADES -->
+  <section id="cityPage" class="table-page" style="display:none;">
+      <div class="card table-card">
+          
+          <table>
+              <thead>
+                  <tr>
+                      <th>Entregador</th>
+                      <th>Total</th>
+                      <th>Entregues</th>
+                      <th>Pendentes</th>
+                      <th>SLA</th>
+                  </tr>
+              </thead>
+              <tbody id="cityTableBody"></tbody>
+          </table>
+      </div>
+  </section>
 
 </div>
 
+<!-- Biblioteca para exportar como imagem -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-  <div class="container">
-
-    <div class="header">
-      <img src="image.png" alt="Logo da Empresa" class="logo">
-      
-    </div>
-
-    <input type="file" id="csvInput" accept=".csv" />
-
+<script>
+document.getElementById("btnExportar").addEventListener("click", function () {
     
+    const area = document.getElementById("dashboard");
 
-   
-<section id="homePage">
+    html2canvas(area).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "dashboard-xpt.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    });
 
-    <!-- KPI CARDS -->
-<div class="kpis">
-
-  <div class="kpi">
-    <div class="kpi-icon">📦</div>
-    <div class="kpi-content">
-      <strong id="kpiTotal">0</strong>
-      <span>Total de Pedidos</span>
-    </div>
-  </div>
-
-  <div class="kpi">
-    <div class="kpi-icon">✔️</div>
-    <div class="kpi-content">
-      <strong id="kpiDelivered">0</strong>
-      <span>Entregues</span>
-    </div>
-  </div>
-
-  <div class="kpi">
-    <div class="kpi-icon">🛵💨</div>
-    <div class="kpi-content">
-      <strong id="kpiPending">0</strong>
-      <span>Pendentes</span>
-    </div>
-  </div>
-
-  <div class="kpi" id="kpiSlaCard">
-    <div class="kpi-icon">📈</div>
-    <div class="kpi-content">
-      <strong id="kpiSla">0%</strong>
-      <span>SLA %</span>
-    </div>
-  </div>
-
-</div>
-
-
-    <!-- GRÁFICOS -->
-    <div class="charts">
-      <div class="chart">
-        <canvas id="barChart"></canvas>
-      </div>
-      <div class="chart">
-        <canvas id="pieChart"></canvas>
-      </div>
-    </div>
-
-       <!-- FILTROS -->
-<div class="filters">
-
-  <div class="filter-group">
-    <label for="driverSelect">Entregador</label>
-    <select id="driverSelect">
-      <option value="">Todos</option>
-    </select>
-  </div>
-
-  <div class="filter-group">
-    <label for="citySelect">Cidade</label>
-    <select id="citySelect">
-      <option value="">Todas</option>
-    </select>
-  </div>
-</div>
-
-</section>
-
-<section id="cityPage" style="display: none;">
-
-     <!-- TABELA POR CIDADE -->
-<div class="table-container">
-  <h2>Status por Cidade</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Cidade</th>
-        <th>Total</th>
-        <th>Entregues</th>
-        <th>Pendentes</th>
-        <th>SLA</th>
-      </tr>
-    </thead>
-    <tbody id="cityTableBody"></tbody>
-  </table>
-</div>
-
-</section>
-
-
- 
-
-</div>
-
-  </div>
-
-
-
-  <footer class="footer">
-  <span>© 2026 <strong>NJ SYSTEM</strong> · v2.0</span>
-</footer>
+});
+</script>
 
 </body>
 </html>

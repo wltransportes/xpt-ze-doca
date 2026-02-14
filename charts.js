@@ -57,9 +57,8 @@ export function renderCharts(data, mode = 'default') {
     .sort((a, b) => b.sla - a.sla);
 
   const fullNames = sortedDrivers.map(d => d.name);
-  const shortNames = sortedDrivers.map(d =>
-    d.name.split(' ').slice(0, 1).join(' ')
-  );
+const shortNames = sortedDrivers.map(d => d.name); // 🔥 nome completo
+
 
   /* 🔥 CONTROLE DE ALTURA + SCROLL */
   const pieCanvas = document.getElementById('pieChart');

@@ -2,62 +2,117 @@ export function calculateMetrics(data) {
 
   let total = 0;
   let delivered = 0;
+  let onHold = 0;
+
   const statusMap = {};
   const driverMap = {};
+  const cityMapInternal = {};
+
+  const cityMap = {
+    '65365-000': 'Zé Doca',
+    '65272-000': 'Santa Luzia do Paruá',
+    '65274-000': 'Nova Olinda do Maranhão',
+    '65368-000': 'Araguanã',
+    '65398-000': 'Alto Alegre do Pindaré',
+    '65363-000': 'Gov. Newton Bello',
+    '65385-000': 'São João do Carú',
+    '65378-000': 'Tufilândia',
+    '65380-000': 'Bom Jardim'
+  };
 
   data.forEach(row => {
 
     const status = row['Status'];
     const driver = row['Driver Name'];
+    const city = cityMap[row['Postal Code']];
 
-    if (!status || status.toString().trim() === '') return;
+    if (!status) return;
 
     const cleanStatus = status.toString().trim();
     const statusLower = cleanStatus.toLowerCase();
 
     total++;
 
-    statusMap[cleanStatus] = (statusMap[cleanStatus] || 0) + 1;
+    statusMap[cleanStatus] =
+      (statusMap[cleanStatus] || 0) + 1;
 
-    if (
+    if (statusLower === 'onhold') {
+      onHold++;
+    }
+
+    const isDelivered =
       statusLower === 'delivered' ||
-      statusLower.endsWith('_delivered')
-    ) {
+      statusLower.endsWith('_delivered');
+
+    if (isDelivered) {
       delivered++;
     }
 
-    // 📦 SLA POR ENTREGADOR
+    // ===== DRIVER =====
     if (driver) {
       if (!driverMap[driver]) {
         driverMap[driver] = { total: 0, delivered: 0 };
       }
 
-      driverMap[driver].total++;
+      if (statusLower !== 'onhold') {
+        driverMap[driver].total++;
+      }
 
-      if (
-        statusLower === 'delivered' ||
-        statusLower.endsWith('_delivered')
-      ) {
+      if (isDelivered) {
         driverMap[driver].delivered++;
       }
     }
+
+    // ===== CITY =====
+    if (city) {
+      if (!cityMapInternal[city]) {
+        cityMapInternal[city] = { total: 0, delivered: 0 };
+      }
+
+      if (statusLower !== 'onhold') {
+        cityMapInternal[city].total++;
+      }
+
+      if (isDelivered) {
+        cityMapInternal[city].delivered++;
+      }
+    }
+
   });
 
-  const pending = total - delivered;
-  const sla = total > 0 ? ((delivered / total) * 100).toFixed(2) : 0;
+  const validBase = total - onHold;
+  const pending = validBase - delivered;
+  const sla = validBase > 0
+    ? ((delivered / validBase) * 100).toFixed(2)
+    : 0;
 
-  // 🧮 Calcula SLA %
   const driverSLA = Object.entries(driverMap).map(([name, info]) => ({
     name,
-    sla: ((info.delivered / info.total) * 100).toFixed(1)
+    total: info.total,
+    delivered: info.delivered,
+    pending: info.total - info.delivered,
+    sla: info.total > 0
+      ? ((info.delivered / info.total) * 100).toFixed(1)
+      : 0
+  }));
+
+  const citySLA = Object.entries(cityMapInternal).map(([name, info]) => ({
+    name,
+    total: info.total,
+    delivered: info.delivered,
+    pending: info.total - info.delivered,
+    sla: info.total > 0
+      ? ((info.delivered / info.total) * 100).toFixed(1)
+      : 0
   }));
 
   return {
-    total,
+    total: validBase,
     delivered,
     pending,
     sla,
-    statusMap,
-    driverSLA
+    statusMap,   // 🔥 IMPORTANTE (seu gráfico precisa disso)
+    driverSLA,
+    citySLA
   };
 }
