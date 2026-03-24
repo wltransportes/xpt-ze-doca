@@ -6,8 +6,8 @@
 
 body{
   font-family:'Inter',sans-serif;
-  background:#050505;
-  color:#fff;
+  background:#000000; /* fundo preto */
+  color:#f1f5f9;
   overflow:hidden;
 }
 
@@ -42,11 +42,12 @@ body{
 .title-group h1{
   font-size:40px;
   font-weight:600;
+  color:#ffffff;
 }
 
 .title-group span{
   font-size:20px;
-  color:#aaa;
+  color:#9ca3af;
 }
 
 .actions{
@@ -57,25 +58,27 @@ body{
 .nav{
   padding:8px 18px;
   border-radius:20px;
-  border:1px solid #ff0000;
+  border:1px solid #dc2626;
   background:transparent;
-  color:#fff;
+  color:#f1f5f9;
   cursor:pointer;
   transition:.2s;
 }
 
 .nav.active,
 .nav:hover{
-  background:#ff0000;
+  background:#dc2626;
+  color:#ffffff;
 }
 
 .print{
   padding:8px 20px;
   border-radius:20px;
-  background:#ff0000;
+  background:#b91c1c;
   border:none;
   font-weight:600;
   cursor:pointer;
+  color:#ffffff;
 }
 
 /* ===== CONTROL BAR ===== */
@@ -94,18 +97,18 @@ body{
 
 .uploads label{
   font-size:11px;
-  color:#ff0000;
+  color:#ef4444;
   display:block;
   margin-bottom:4px;
 }
 
 input[type="file"],
 select{
-  background:#111;
-  border:1px solid #ff0000;
+  background:#111111;
+  border:1px solid #dc2626;
   border-radius:12px;
   padding:6px 10px;
-  color:#fff;
+  color:#f1f5f9;
   font-size:12px;
 }
 
@@ -132,8 +135,8 @@ select{
 }
 
 .kpi{
-  background:#111;
-  border:1px solid #ff0000;
+  background:#0a0a0a;
+  border:1px solid #dc2626;
   border-radius:14px;
   padding:15px;
   display:flex;
@@ -143,13 +146,14 @@ select{
 
 .kpi span{
   font-size:11px;
-  color:#aaa;
+  color:#9ca3af;
   text-transform:uppercase;
 }
 
 .kpi strong{
   font-size:28px;
   margin-top:6px;
+  color:#ffffff;
 }
 
 .kpi.sla-green strong{color:#22c55e;}
@@ -165,13 +169,16 @@ select{
 }
 
 .card{
-  background:#111;
+  background:#0a0a0a;
   border-radius:18px;
   padding:20px;
-  border:1px solid #1a1a1a;
+  border:1px solid #1f2937;
   display:flex;
   align-items:center;
   justify-content:center;
+
+  overflow:hidden;
+  position:relative;
 }
 
 /* ===== TABLE ===== */
@@ -191,8 +198,8 @@ table{
 }
 
 thead{
-  background:#ff0000;
-  color:#000;
+  background:#dc2626;
+  color:#ffffff;
 }
 
 th,td{
@@ -202,11 +209,119 @@ th,td{
 }
 
 tbody tr{
-  border-bottom:1px solid #222;
+  border-bottom:1px solid #1f2937;
 }
 
 .sla-green{color:#22c55e;}
 .sla-yellow{color:#facc15;}
 .sla-red{color:#ef4444;}
 
+/* ===== RESPONSIVIDADE GLOBAL ===== */
 
+body{
+  overflow:auto;
+}
+
+.dashboard{
+  padding:20px;
+}
+
+/* ===== TOPBAR RESPONSIVA ===== */
+
+.topbar{
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.title-group h1{
+  font-size:clamp(22px, 4vw, 40px);
+}
+
+.title-group span{
+  font-size:clamp(14px, 2vw, 20px);
+}
+
+.logo{
+  height:clamp(50px, 8vw, 100px);
+}
+
+/* ===== BOTÕES ===== */
+
+.actions{
+  flex-wrap:wrap;
+}
+
+/* ===== CONTROL BAR ===== */
+
+.control-bar{
+  flex-wrap:wrap;
+  gap:15px;
+}
+
+.uploads{
+  flex-wrap:wrap;
+}
+
+.filters{
+  flex-wrap:wrap;
+}
+
+/* ===== KPI GRID RESPONSIVO ===== */
+
+.kpi-grid{
+  grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+}
+
+/* ===== CHART GRID ===== */
+
+.chart-grid{
+  height:350px;
+}
+
+/* ===== CARDS ===== */
+
+.card{
+  width:100%;
+  overflow:auto;
+}
+
+.card canvas{
+  width:100% !important;
+  height:100% !important;
+  max-width:100%;
+}
+
+.chart-scroll{
+  width:100%;
+  height:100%;
+  overflow:auto;
+}
+
+/* ===== TABELA RESPONSIVA ===== */
+
+.table-card{
+  overflow:auto;
+}
+
+table{
+  min-width:700px;
+}
+
+/* ===== MOBILE EXTRA ===== */
+
+@media(max-width:768px){
+
+  .dashboard{
+    padding:15px;
+  }
+
+  .kpi strong{
+    font-size:20px;
+  }
+
+  th, td{
+    font-size:12px;
+    padding:8px;
+  }
+
+}
