@@ -9,15 +9,25 @@ export function calculateMetrics(data) {
   const cityMapInternal = {};
 
   const cityMap = {
-    '65365-000': 'Zé Doca',
-    '65272-000': 'Santa Luzia do Paruá',
-    '65274-000': 'Nova Olinda do Maranhão',
-    '65368-000': 'Araguanã',
-    '65398-000': 'Alto Alegre do Pindaré',
-    '65363-000': 'Gov. Newton Bello',
-    '65385-000': 'São João do Carú',
-    '65378-000': 'Tufilândia',
-    '65380-000': 'Bom Jardim'
+'65413-000': 'Alto Alegre do Maranhão',
+'65700-000': 'Bacabal',
+'65723-000': 'Bernardo do Mearim',
+'65704-000': 'Bom Lugar',
+'65710-000': 'Conceição do Lago-Açu',
+'65720-000': 'Igarapé Grande',
+'65715-000': 'Lago da Pedra',
+'65710-000': 'Lago do Junco',
+'65712-000': 'Lago dos Rodrigues',
+'65705-000': 'Lago Verde',
+'65728-000': 'Lima Campos',
+'65706-000': 'Olho d’Água das Cunhãs',
+'65716-000': 'Paulo Ramos',
+'65725-000': 'Pedreiras',
+'65740-000': 'Poção de Pedras',
+'65708-000': 'São Luís Gonzaga do Maranhão',
+'65470-000': 'São Mateus do Maranhão',
+'65727-000': 'Trizidela do Vale',
+'65320-000': 'Vitorino Freire'
   };
 
   data.forEach(row => {
