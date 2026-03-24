@@ -6,8 +6,8 @@
 
 body{
   font-family:'Inter',sans-serif;
-  background:#ffffff;
-  color:#0f172a;
+  background:#050505;
+  color:#fff;
   overflow:hidden;
 }
 
@@ -46,7 +46,7 @@ body{
 
 .title-group span{
   font-size:20px;
-  color:#64748b;
+  color:#aaa;
 }
 
 .actions{
@@ -57,27 +57,25 @@ body{
 .nav{
   padding:8px 18px;
   border-radius:20px;
-  border:1px solid #2563eb;
+  border:1px solid #ff0000;
   background:transparent;
-  color:#0f172a;
+  color:#fff;
   cursor:pointer;
   transition:.2s;
 }
 
 .nav.active,
 .nav:hover{
-  background:#2563eb;
-  color:#ffffff;
+  background:#ff0000;
 }
 
 .print{
   padding:8px 20px;
   border-radius:20px;
-  background:#16a34a;
+  background:#ff0000;
   border:none;
   font-weight:600;
   cursor:pointer;
-  color:#ffffff;
 }
 
 /* ===== CONTROL BAR ===== */
@@ -96,18 +94,18 @@ body{
 
 .uploads label{
   font-size:11px;
-  color:#2563eb;
+  color:#ff0000;
   display:block;
   margin-bottom:4px;
 }
 
 input[type="file"],
 select{
-  background:#f1f5f9;
-  border:1px solid #2563eb;
+  background:#111;
+  border:1px solid #ff0000;
   border-radius:12px;
   padding:6px 10px;
-  color:#0f172a;
+  color:#fff;
   font-size:12px;
 }
 
@@ -134,8 +132,8 @@ select{
 }
 
 .kpi{
-  background:#f8fafc;
-  border:1px solid #2563eb;
+  background:#111;
+  border:1px solid #ff0000;
   border-radius:14px;
   padding:15px;
   display:flex;
@@ -145,7 +143,7 @@ select{
 
 .kpi span{
   font-size:11px;
-  color:#64748b;
+  color:#aaa;
   text-transform:uppercase;
 }
 
@@ -154,9 +152,9 @@ select{
   margin-top:6px;
 }
 
-.kpi.sla-green strong{color:#16a34a;}
-.kpi.sla-yellow strong{color:#eab308;}
-.kpi.sla-red strong{color:#dc2626;}
+.kpi.sla-green strong{color:#22c55e;}
+.kpi.sla-yellow strong{color:#facc15;}
+.kpi.sla-red strong{color:#ef4444;}
 
 /* ===== CHART GRID ===== */
 
@@ -167,17 +165,13 @@ select{
 }
 
 .card{
-  background:#f8fafc;
+  background:#111;
   border-radius:18px;
   padding:20px;
-  border:1px solid #e2e8f0;
+  border:1px solid #1a1a1a;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  /* 🔥 IMPORTANTE */
-  overflow:hidden;
-  position:relative;
 }
 
 /* ===== TABLE ===== */
@@ -197,8 +191,8 @@ table{
 }
 
 thead{
-  background:#2563eb;
-  color:#ffffff;
+  background:#ff0000;
+  color:#000;
 }
 
 th,td{
@@ -208,122 +202,11 @@ th,td{
 }
 
 tbody tr{
-  border-bottom:1px solid #e2e8f0;
+  border-bottom:1px solid #222;
 }
 
-.sla-green{color:#16a34a;}
-.sla-yellow{color:#eab308;}
-.sla-red{color:#dc2626;}
-
-/* ===== RESPONSIVIDADE GLOBAL ===== */
-
-body{
-  overflow:auto;
-}
-
-/* Container mais fluido */
-.dashboard{
-  padding:20px;
-}
-
-/* ===== TOPBAR RESPONSIVA ===== */
-
-.topbar{
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-.title-group h1{
-  font-size:clamp(22px, 4vw, 40px);
-}
-
-.title-group span{
-  font-size:clamp(14px, 2vw, 20px);
-}
-
-.logo{
-  height:clamp(50px, 8vw, 100px);
-}
-
-/* ===== BOTÕES ===== */
-
-.actions{
-  flex-wrap:wrap;
-}
-
-/* ===== CONTROL BAR ===== */
-
-.control-bar{
-  flex-wrap:wrap;
-  gap:15px;
-}
-
-.uploads{
-  flex-wrap:wrap;
-}
-
-.filters{
-  flex-wrap:wrap;
-}
-
-/* ===== KPI GRID RESPONSIVO ===== */
-
-.kpi-grid{
-  grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
-}
-
-/* ===== CHART GRID ===== */
-
-.chart-grid{
-  height:350px;
-}
-
-/* ===== CARDS ===== */
-
-.card{
-  width:100%;
-  overflow:auto; /* permite scroll interno */
-}
-
-.card canvas{
-  width:100% !important;
-  height:100% !important;
-  max-width:100%;
-}
-
-.chart-scroll{
-  width:100%;
-  height:100%;
-  overflow:auto;
-}
-
-/* ===== TABELA RESPONSIVA ===== */
-
-.table-card{
-  overflow:auto;
-}
-
-table{
-  min-width:700px;
-}
-
-/* ===== MOBILE EXTRA ===== */
-
-@media(max-width:768px){
-
-  .dashboard{
-    padding:15px;
-  }
-
-  .kpi strong{
-    font-size:20px;
-  }
-
-  th, td{
-    font-size:12px;
-    padding:8px;
-  }
-
-}
+.sla-green{color:#22c55e;}
+.sla-yellow{color:#facc15;}
+.sla-red{color:#ef4444;}
 
 
