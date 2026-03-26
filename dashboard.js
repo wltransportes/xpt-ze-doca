@@ -65,7 +65,9 @@ function updateDashboard(data) {
 }
 
 function updateDS(data) {
-  const result = calculateMetrics(data);
+
+  // 🔥 AGORA USA MODO DS
+  const result = calculateMetrics(data, 'DS');
 
   document.getElementById('kpiDs').innerText =
     result.sla + '%';
