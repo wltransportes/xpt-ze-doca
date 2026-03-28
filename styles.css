@@ -4,6 +4,10 @@
   box-sizing:border-box;
 }
 
+html, body{
+  height:100%;
+}
+
 body{
   font-family:'Inter',sans-serif;
   background:#000000;
@@ -14,7 +18,8 @@ body{
 /* ===== DASHBOARD ===== */
 
 .dashboard{
-  height:100vh;
+  min-height:100vh;
+  height:auto;
   display:flex;
   flex-direction:column;
   padding:20px 40px;
@@ -140,6 +145,7 @@ input:hover, select:hover{
   display:grid;
   grid-template-rows:auto 1fr;
   gap:20px;
+  height:100%;
 }
 
 /* ===== KPI ===== */
@@ -168,14 +174,24 @@ input:hover, select:hover{
 }
 
 .kpi span{
-  font-size:11px;
-  color:#bbb;
-  text-transform:uppercase;
+  font-size: 11px;
+  text-transform: uppercase !important;
+  letter-spacing: 1px;
+  color: #888;
+  margin-bottom: 4px;
 }
 
 .kpi strong{
-  font-size:28px;
-  margin-top:6px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: none !important;
+}
+
+.kpi p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ccc;
 }
 
 /* SLA mantém */
@@ -189,8 +205,19 @@ input:hover, select:hover{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:20px;
+  height:100%;
 }
 
+/* 🔥 AGORA RESPONSIVO (SEM TRAVAR ALTURA) */
+.chart-grid .card{
+  height:100%;
+  min-height:350px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* CARD BASE */
 .card{
   background:rgba(255,255,255,0.05);
   border-radius:20px;
@@ -226,7 +253,8 @@ input:hover, select:hover{
   box-shadow:0 20px 50px rgba(255,0,0,0.25);
 }
 
-.card canvas{
+/* 🔥 CANVAS OCUPA TUDO */
+.chart-grid canvas{
   width:100% !important;
   height:100% !important;
 }
@@ -325,7 +353,7 @@ body{
 }
 
 .chart-grid .card{
-  height:350px;
+  min-height:300px;
 }
 
 table{
@@ -349,4 +377,27 @@ table{
     padding:8px;
   }
 
+}
+
+canvas {
+  pointer-events: auto;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.export-mode .kpi,
+.export-mode .chart-container {
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+
+.export-mode .kpi span{
+  text-transform: uppercase !important;
+}
+
+.export-mode .kpi strong{
+  text-transform: none !important;
 }
