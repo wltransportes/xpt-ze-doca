@@ -31,6 +31,13 @@ export function renderCharts(data, mode = 'default', extra = {}) {
     ([, value]) => Number(value) || 0
   );
 
+  // 🔥 NOVO: CORES DINÂMICAS POR STATUS
+  const statusColors = filteredStatus.map(([status]) => {
+    if (status === 'Delivered') return '#22c55e';   // verde
+    if (status === 'Delivering') return '#facc15';  // amarelo
+    return '#ef4444'; // vermelho para os outros
+  });
+
   barChart = new Chart(document.getElementById('barChart'), {
     type: 'bar',
     data: {
@@ -38,7 +45,7 @@ export function renderCharts(data, mode = 'default', extra = {}) {
       datasets: [{
         label: 'Quantidade',
         data: statusValues,
-        backgroundColor: '#f97316'
+        backgroundColor: statusColors // 🔥 ALTERADO AQUI
       }]
     },
     options: {
