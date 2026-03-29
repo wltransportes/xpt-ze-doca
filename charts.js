@@ -9,7 +9,7 @@ export function renderCharts(data, mode = 'default', extra = {}) {
   const selectedStatus = extra.status || '';
 
   /* ===============================
-     🔤 STATUS DOS PEDIDOS
+     🔤 GRAFICO 1 (NUMERICO)
   =============================== */
   const statusLabelsMap = {
     Delivered: 'Entregue',
@@ -28,7 +28,7 @@ export function renderCharts(data, mode = 'default', extra = {}) {
   );
 
   const statusValues = filteredStatus.map(
-    ([, value]) => value
+    ([, value]) => Number(value) || 0
   );
 
   barChart = new Chart(document.getElementById('barChart'), {
@@ -36,54 +36,33 @@ export function renderCharts(data, mode = 'default', extra = {}) {
     data: {
       labels: statusLabels,
       datasets: [{
-        label: 'Status dos Pedidos',
+        label: 'Quantidade',
         data: statusValues,
-        backgroundColor: '#ff0000'
+        backgroundColor: '#f97316'
       }]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-
-      // 🔥 HOVER MELHORADO
       interaction: {
         mode: 'index',
         intersect: false
       },
-
       scales: {
-        y: { beginAtZero: true }
-      },
-
-      plugins: {
-        tooltip: {
-          enabled: true,
-          backgroundColor: '#111',
-          titleColor: '#fff',
-          bodyColor: '#fff',
-          borderColor: '#ff0000',
-          borderWidth: 1,
-          padding: 10,
-          displayColors: false,
-          callbacks: {
-            title: function(context) {
-              return context[0].label;
-            },
-            label: function(context) {
-              return `Quantidade: ${context.raw}`;
-            }
-          }
+        y: {
+          beginAtZero: true
         }
       }
     }
   });
 
   /* ===============================
-     🔥 GRÁFICO HORIZONTAL
+     🔥 GRAFICO 2 (PORCENTAGEM)
   =============================== */
 
   let labels = [];
   let values = [];
+  let rawValues = [];
   let title = '';
   let colors = [];
 
@@ -99,36 +78,68 @@ export function renderCharts(data, mode = 'default', extra = {}) {
     '65380-000': 'Bom Jardim'
   };
 
-  // 🔥 DS
+  /* ===============================
+     🔥 DS (AGORA POR CIDADE)
+  =============================== */
   if (mode === 'DS') {
 
-    title = 'Quantidade por Cidade';
+    title = 'Performance por Cidade (%)';
 
-    const cityCount = {};
+    const cityStats = {};
 
     (extra.rawData || []).forEach(row => {
       const cep = row['Postal Code'];
       const city = cityMap[cep] || cep;
+      const status = row['Status'];
 
-      if (city) {
-        cityCount[city] = (cityCount[city] || 0) + 1;
+      if (!city) return;
+
+      if (!cityStats[city]) {
+        cityStats[city] = {
+          total: 0,
+          delivered: 0
+        };
+      }
+
+      cityStats[city].total++;
+
+      if (status === 'Delivered') {
+        cityStats[city].delivered++;
       }
     });
 
-    const sorted = Object.entries(cityCount)
-      .map(([name, total]) => ({ name, total }))
-      .sort((a, b) => b.total - a.total);
+    const sorted = Object.entries(cityStats)
+      .map(([name, stats]) => {
+        const percent = stats.total
+          ? (stats.delivered / stats.total) * 100
+          : 0;
+
+        return {
+          name,
+          percent,
+          total: stats.total,
+          delivered: stats.delivered
+        };
+      })
+      .sort((a, b) => b.percent - a.percent);
 
     labels = sorted.map(c => c.name);
-    values = sorted.map(c => c.total);
+    values = sorted.map(c => c.percent);
+    rawValues = sorted.map(c => `${c.delivered}/${c.total}`);
 
-    colors = sorted.map(() => '#ff0000');
+    colors = sorted.map(c =>
+      c.percent >= 98 ? '#22c55e' :
+      c.percent >= 95 ? '#facc15' :
+      '#ef4444'
+    );
   }
 
-  // 🔥 ONHOLD
+  /* ===============================
+     🔥 ONHOLD
+  =============================== */
   else if (selectedStatus === 'OnHold') {
 
-    title = 'Ocorrências por Entregador';
+    title = 'Ocorrências por Entregador (%)';
 
     const driverCount = {};
 
@@ -141,46 +152,58 @@ export function renderCharts(data, mode = 'default', extra = {}) {
       }
     });
 
+    const total = Object.values(driverCount).reduce((a, b) => a + b, 0);
+
     const sorted = Object.entries(driverCount)
-      .map(([name, total]) => ({ name, total }))
-      .sort((a, b) => b.total - a.total);
+      .map(([name, totalDriver]) => ({
+        name,
+        total: totalDriver,
+        percent: total ? (totalDriver / total) * 100 : 0
+      }))
+      .sort((a, b) => b.percent - a.percent);
 
     labels = sorted.map(d => d.name);
-    values = sorted.map(d => d.total);
+    rawValues = sorted.map(d => d.total);
+    values = sorted.map(d => d.percent);
 
     colors = sorted.map(() => '#ef4444');
   }
 
-  // 🔥 PADRÃO
+  /* ===============================
+     🔥 SLA (MANTIDO)
+  =============================== */
   else {
 
-    title = 'Quantidade por Cidade';
+    title = 'SLA por Cidade (%)';
 
     const sorted = (data.citySLA || [])
       .filter(c => c.name)
-      .sort((a, b) => b.total - a.total);
+      .map(c => ({
+        name: c.name,
+        percent: Number(c.sla) || 0,
+        total: c.total || 0
+      }))
+      .sort((a, b) => b.percent - a.percent);
 
     labels = sorted.map(c => c.name);
-    values = sorted.map(c => c.total);
+    rawValues = sorted.map(c => c.total);
+    values = sorted.map(c => c.percent);
 
     colors = sorted.map(c =>
-      c.sla >= 98 ? '#22c55e' :
-      c.sla >= 95 ? '#facc15' :
+      c.percent >= 98 ? '#22c55e' :
+      c.percent >= 95 ? '#facc15' :
       '#ef4444'
     );
   }
 
-  // 🔥 FALLBACK
-  if (!values.length) {
+  if (!labels.length) {
     labels = ['Sem dados'];
     values = [0];
+    rawValues = ['0/0'];
     colors = ['#999'];
   }
 
   const pieCanvas = document.getElementById('pieChart');
-  const chartWrapper = pieCanvas.parentElement;
-
- 
 
   slaDriverChart = new Chart(pieCanvas, {
     type: 'bar',
@@ -188,10 +211,7 @@ export function renderCharts(data, mode = 'default', extra = {}) {
       labels: labels,
       datasets: [{
         label: title,
-        data: values.map(v => {
-          const num = Number(v);
-          return isNaN(num) ? 0 : Math.round(num);
-        }),
+        data: values,
         backgroundColor: colors,
         borderRadius: 6,
         barThickness: 16
@@ -202,48 +222,23 @@ export function renderCharts(data, mode = 'default', extra = {}) {
       responsive: true,
       maintainAspectRatio: false,
 
-      // 🔥 HOVER CORRIGIDO (ESSA LINHA FAZ MÁGICA)
-      interaction: {
-        mode: 'index',
-        intersect: false
-      },
-
       scales: {
-        y: {
-          ticks: {
-            autoSkip: false,
-            font: { size: 12 }
-          }
-        },
         x: {
-  beginAtZero: true,
-  min: 0,
-  max: Math.max(...values) + 1, // adiciona folga
-  ticks: {
-    stepSize: 1,
-    precision: 10
-  }
-}
+          beginAtZero: true,
+          max: 100,
+          ticks: {
+            callback: value => value + '%'
+          }
+        }
       },
 
       plugins: {
         legend: { display: false },
-
         tooltip: {
-          enabled: true,
-          backgroundColor: '#111',
-          titleColor: '#fff',
-          bodyColor: '#fff',
-          borderColor: '#ff0000',
-          borderWidth: 1,
-          padding: 10,
-          displayColors: false,
           callbacks: {
-            title: function(context) {
-              return context[0].label;
-            },
             label: function(context) {
-              return `Quantidade: ${context.raw}`;
+              const i = context.dataIndex;
+              return `${values[i].toFixed(2)}% (${rawValues[i]})`;
             }
           }
         }
