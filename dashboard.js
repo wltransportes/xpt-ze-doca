@@ -198,27 +198,27 @@ function renderDriverRanking(data) {
 
   const result = calculateMetrics(data);
 
-  result.driverSLA
-    .sort((a, b) => parseFloat(a.sla) - parseFloat(b.sla))
-    .forEach((driver, index) => {
+result.driverSLA
+  .sort((a, b) => b.total - a.total) // 🔥 AQUI A MUDANÇA
+  .forEach((driver, index) => {
 
-      const tr = document.createElement('tr');
+    const tr = document.createElement('tr');
 
-      let medal = '';
-      if (index === 0) medal = '🥇';
-      else if (index === 1) medal = '🥈';
-      else if (index === 2) medal = '🥉';
+    let medal = '';
+    if (index === 0) medal = '🥇';
+    else if (index === 1) medal = '🥈';
+    else if (index === 2) medal = '🥉';
 
-      tr.innerHTML = `
-        <td>${medal} ${driver.name}</td>
-        <td>${driver.total}</td>
-        <td>${driver.delivered}</td>
-        <td>${driver.pending}</td>
-        <td class="${getSlaClass(driver.sla)}">${driver.sla}%</td>
-      `;
+    tr.innerHTML = `
+      <td>${medal} ${driver.name}</td>
+      <td>${driver.total}</td>
+      <td>${driver.delivered}</td>
+      <td>${driver.pending}</td>
+      <td class="${getSlaClass(driver.sla)}">${driver.sla}%</td>
+    `;
 
-      cityTableBody.appendChild(tr);
-    });
+    cityTableBody.appendChild(tr);
+  });
 }
 
 /* =========================
