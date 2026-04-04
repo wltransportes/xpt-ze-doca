@@ -402,3 +402,20 @@ canvas {
 .export-mode .kpi strong{
   text-transform: none !important;
 }
+
+.driver-block {
+  margin-bottom: 20px;
+  padding: 10px;
+  background: #111;
+  border-radius: 8px;
+}
+
+.driver-block h3 {
+  color: #facc15;
+  margin-bottom: 5px;
+}
+
+.driver-block p {
+  font-size: 13px;
+  line-height: 1.4;
+}

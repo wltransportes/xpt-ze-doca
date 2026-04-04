@@ -51,15 +51,27 @@ export function renderCharts(data, mode = 'default', extra = {}) {
       responsive: true,
       maintainAspectRatio: false,
 
+    onClick: (evt, elements) => {
+  if (elements.length > 0) {
+    const index = elements[0].index;
+    const statusClicado = filteredStatus[index][0];
+
+    // chama função global
+    if (window.handleStatusClick) {
+      window.handleStatusClick(statusClicado);
+    }
+  }
+},
+
       // 🔥 CORREÇÃO AQUI
-      interaction: {
-        mode: 'nearest',
-        intersect: true
-      },
-      hover: {
-        mode: 'nearest',
-        intersect: true
-      },
+     interaction: {
+  mode: 'index',
+  intersect: false
+},
+hover: {
+  mode: 'index',
+  intersect: false
+},
 
       scales: {
         y: {

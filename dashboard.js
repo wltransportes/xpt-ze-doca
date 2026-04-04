@@ -349,3 +349,74 @@ function exportDashboard() {
     link.click();
   });
 }
+
+window.handleStatusClick = function(status) {
+
+  const dataBase = currentMode === 'DS' ? dsData : rawData;
+
+  const filtrados = dataBase.filter(r => r['Status'] === status);
+
+  const agrupado = {};
+
+  filtrados.forEach(row => {
+    const driver = row['Driver Name'] || 'Sem nome';
+    const br = row['Order ID'] || 'Sem código';
+    if (!agrupado[driver]) {
+      agrupado[driver] = [];
+    }
+
+    agrupado[driver].push(br);
+  });
+
+  renderStatusPage(status, agrupado);
+};
+
+function renderStatusPage(status, data) {
+
+  homePage.style.display = 'none';
+  cityPage.style.display = 'none';
+
+  let page = document.getElementById('statusPage');
+
+  if (!page) {
+    page = document.createElement('section');
+    page.id = 'statusPage';
+    page.className = 'table-page';
+
+    page.innerHTML = `
+      <div class="card table-card">
+        <h2 id="statusTitle"></h2>
+        <button onclick="voltarDashboard()">⬅ Voltar</button>
+        <div id="statusContent"></div>
+      </div>
+    `;
+
+    document.querySelector('.dashboard').appendChild(page);
+  }
+
+  page.style.display = 'block';
+
+  document.getElementById('statusTitle').innerText =
+    `Status: ${status}`;
+
+  const container = document.getElementById('statusContent');
+  container.innerHTML = '';
+
+  Object.entries(data).forEach(([driver, brs]) => {
+
+    const div = document.createElement('div');
+    div.className = 'driver-block';
+
+    div.innerHTML = `
+      <h3>${driver}</h3>
+      <p>${brs.join('<br>')}</p>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+window.voltarDashboard = function() {
+  document.getElementById('statusPage').style.display = 'none';
+  homePage.style.display = 'grid';
+};
